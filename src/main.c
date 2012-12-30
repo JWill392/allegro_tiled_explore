@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
 	map = al_open_map(MAP_FOLDER, "level1.tmx");
 
     // Create avatar
-    tar = create_avatar(20, 600, "data/avatar.png");
+    tar = create_avatar(0, 0, "data/avatar.png");
 
 	// Draw the map
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -178,6 +178,8 @@ int main(int argc, char *argv[])
 					}
 					
 					walk(tar, x_move, y_move);
+					//gravity(tar, 
+					
 					center_viewport(tar, screen_width, screen_height, map, &map_x, &map_y);
 
 					redraw = true;
@@ -192,7 +194,17 @@ int main(int argc, char *argv[])
 					// ignore
 					break;
 				case ALLEGRO_EVENT_KEY_CHAR:
-					// ignore
+					if (event.keyboard.keycode == ALLEGRO_KEY_SPACE) {
+						ALLEGRO_MAP_LAYER *collide_layer = al_get_map_layer(map, "Blocks 1");
+						ALLEGRO_MAP_TILE **tiles = get_occupied_tile_ids(tar, collide_layer, map);
+						fprintf(stdout, "Avatar on tiles: {%s, %s, %s, %s}\n", 
+								al_get_tile_property(tiles[0], "collide", "null"), 
+								al_get_tile_property(tiles[1], "collide", "null"), 
+								al_get_tile_property(tiles[2], "collide", "null"), 
+								al_get_tile_property(tiles[3], "collide", "null"));
+						free(tiles);
+						tiles = NULL;
+					}
 					break;
 				default:
 					fprintf(stderr, "Unsupported event received: %d\n", event.type);

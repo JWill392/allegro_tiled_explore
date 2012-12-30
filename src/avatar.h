@@ -11,9 +11,13 @@ typedef struct {
 } Avatar;
 
 Avatar* create_avatar(int x, int y, const char* image_path);
-char get_occupied_tile_id(Avatar *tar, ALLEGRO_MAP_LAYER *layer);
+
+int get_width(Avatar *tar);
+int get_height(Avatar *tar);
+
+ALLEGRO_MAP_TILE** get_occupied_tile_ids(Avatar *tar, ALLEGRO_MAP_LAYER *layer, ALLEGRO_MAP *map);
 // TODO bool is_walkable
-bool walk(Avatar *tar, int x, int y);
+void walk(Avatar *tar, int x, int y);
 void draw_avatar(Avatar *tar, ALLEGRO_MAP *map, int mx, int my);
 void free_avatar(void *data);
 
